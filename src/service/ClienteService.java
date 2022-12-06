@@ -24,7 +24,7 @@ public class ClienteService {
         return cliente;
     }
 
-    private Cliente criarCliente(String cpf){
+    public Cliente criarCliente(String cpf){
         sc.nextLine();
         System.out.println("---- Cadastro de clientes ----");
         System.out.print("Digite seu nome: ");
@@ -34,7 +34,7 @@ public class ClienteService {
         System.out.print("Digite sua senha: ");
         String senha = sc.nextLine();
         System.out.print("Digite PF (pessoa física) ou PJ (pessoa jurídica): ");
-        String tipo = sc.nextLine();
+        String tipo = sc.nextLine().toUpperCase();
         Cliente.TipoPessoa tipoPessoa = tipo.equals("PF") ? Cliente.TipoPessoa.PF : Cliente.TipoPessoa.PJ;
         Cliente cliente = new Cliente(nome, senha, cpf, endereco, tipoPessoa);
         return repository.salvar(cliente);
