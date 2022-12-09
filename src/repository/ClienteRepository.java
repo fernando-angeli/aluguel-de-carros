@@ -13,6 +13,8 @@ public class ClienteRepository implements Repository<Cliente>{
 
     public ClienteRepository(){
         this.clientesRepository = new HashMap<>();
+        Cliente cliente = new Cliente("Fernando", "12345", "00011122233", "Rua 1, 30", Cliente.TipoPessoa.PF);
+        clientesRepository.put(cliente.getId(), cliente);
     }
 
     @Override

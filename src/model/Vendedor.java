@@ -2,6 +2,7 @@ package model;
 
 public class Vendedor extends Pessoa{
 
+    public static final double PORCENTAGEM_COMISSAO = 0.05;
     private double salario;
     private double comissao;
 
@@ -28,11 +29,6 @@ public class Vendedor extends Pessoa{
 
     @Override
     public String toString() {
-        return "Vendedor{" +
-                "Salario=" + salario +
-                ", Comissao=" + comissao +
-                ", Id=" + id +
-                ", Nome='" + nome + '\'' +
-                '}';
+        return id + " - " + nome;
     }
 }

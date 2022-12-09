@@ -1,8 +1,13 @@
 package service;
 
 import model.Cliente;
+import model.Veiculo;
 import repository.ClienteRepository;
 
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class ClienteService {
@@ -34,10 +39,32 @@ public class ClienteService {
         System.out.print("Digite sua senha: ");
         String senha = sc.nextLine();
         System.out.print("Digite PF (pessoa física) ou PJ (pessoa jurídica): ");
-        String tipo = sc.nextLine();
+        String tipo = sc.nextLine().toUpperCase();
         Cliente.TipoPessoa tipoPessoa = tipo.equals("PF") ? Cliente.TipoPessoa.PF : Cliente.TipoPessoa.PJ;
         Cliente cliente = new Cliente(nome, senha, cpf, endereco, tipoPessoa);
+        System.out.println("---- Cliente cadastrado ----");
         return repository.salvar(cliente);
     }
 
+    public boolean validarSenha(Cliente clienteLogado, String senha) {
+        return clienteLogado.getSenha().equals(senha);
+    }
+
+    public void adicionarVeiculo(Cliente cliente, Veiculo veiculo){
+        cliente.getVeiculosAlugados().add(veiculo);
+        long diasLocacao = LocalDate.now().until(veiculo.getDataEntrega(), ChronoUnit.DAYS);
+        cliente.setDebitos(cliente.getDebitos() + (veiculo.getValor()*diasLocacao));
+    }
+
+    public void buscarVeiculosAlugados(Cliente clienteLogado) {
+        clienteLogado.getVeiculosAlugados().forEach(System.out::println);
+    }
+
+    public void devolverVeiculo(Cliente clienteLogado, int veiculoEscolhido) {
+        for(int i = 0; i < clienteLogado.getVeiculosAlugados().size(); i++)
+            if(clienteLogado.getVeiculosAlugados().get(i).getId() == veiculoEscolhido) {
+                clienteLogado.getVeiculosAlugados().remove(i);
+                return;
+            }
+    }
 }

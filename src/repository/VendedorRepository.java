@@ -1,5 +1,6 @@
 package repository;
 
+import model.Cliente;
 import model.Vendedor;
 
 import java.util.HashMap;
@@ -13,6 +14,8 @@ public class VendedorRepository implements Repository<Vendedor>{
 
     public VendedorRepository(){
         this.vendedoresRepository = new HashMap<>();
+        this.salvar(new Vendedor("Joao", "12345", "01", "Rua 1, 30", 2500));
+        this.salvar(new Vendedor("Maria", "12345", "02", "Rua 1, 30", 2500));
     }
 
     @Override
