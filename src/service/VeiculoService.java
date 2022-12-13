@@ -1,5 +1,6 @@
 package service;
 
+import exception.VeiculoException;
 import model.Veiculo;
 import repository.VeiculoRepository;
 
@@ -26,8 +27,11 @@ public class VeiculoService {
         todosVeiculos.stream().filter(x -> x.getStatus().equals(Veiculo.Status.LIVRE)).forEach(System.out::println);
     }
 
-    public Veiculo alugarVeiculo(Integer idVeiculo, int diasLocacao){
+    public Veiculo alugarVeiculo(Integer idVeiculo, int diasLocacao) throws VeiculoException {
         Veiculo veiculo = this.repository.buscarPorId(idVeiculo);
+        if(veiculo == null){
+            throw new VeiculoException("Veículo não encontrado");
+        }
         if(veiculo.getStatus() == Veiculo.Status.ALUGADO){
             System.out.println("Veículo alugado");
             return null;
@@ -39,7 +43,16 @@ public class VeiculoService {
         return veiculo;
     }
 
-    public void decolverVeiculo(int veiculoEscolhido) {
+    public void devolverVeiculo(int veiculoEscolhido) {
         repository.buscarPorId(veiculoEscolhido).setStatus(Veiculo.Status.LIVRE);
+    }
+
+    public void veiculosAlugados(){
+        List<Veiculo> todosVeiculos = repository.buscarTodos();
+        todosVeiculos.stream().filter(x -> x.getStatus().equals(Veiculo.Status.ALUGADO)).forEach(System.out::println);
+    }
+
+    public VeiculoRepository getRepository() {
+        return repository;
     }
 }

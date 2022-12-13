@@ -9,30 +9,31 @@ import java.util.stream.Collectors;
 
 public class AdminRepository implements Repository<Admin>{
 
-    private Map<Integer, Admin> adminsRepository;
+    private Map<Integer, Admin> adminRepository;
 
     public AdminRepository() {
-        this.adminsRepository = new HashMap<>();
+        this.adminRepository = new HashMap<>();
+        this.salvar(new Admin("Admin", "12345", "1", "Rua dos Admins, 120"));
     }
 
     @Override
     public List<Admin> buscarTodos() {
-        return adminsRepository.values().stream().collect(Collectors.toList());
+        return adminRepository.values().stream().collect(Collectors.toList());
     }
 
     @Override
     public Admin buscarPorId(Integer id) {
-        return adminsRepository.get(id);
+        return adminRepository.get(id);
     }
 
     @Override
     public void excluirPorId(Integer id) {
-        adminsRepository.remove(id);
+        adminRepository.remove(id);
     }
 
     @Override
     public Admin salvar(Admin admin) {
-        adminsRepository.put(admin.getId(), admin);
+        adminRepository.put(admin.getId(), admin);
         return admin;
     }
 

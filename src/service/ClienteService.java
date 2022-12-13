@@ -1,12 +1,12 @@
 package service;
 
+import exception.VeiculoException;
 import model.Cliente;
 import model.Veiculo;
 import repository.ClienteRepository;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -46,18 +46,18 @@ public class ClienteService {
         return repository.salvar(cliente);
     }
 
-    public boolean validarSenha(Cliente clienteLogado, String senha) {
-        return clienteLogado.getSenha().equals(senha);
-    }
-
     public void adicionarVeiculo(Cliente cliente, Veiculo veiculo){
         cliente.getVeiculosAlugados().add(veiculo);
         long diasLocacao = LocalDate.now().until(veiculo.getDataEntrega(), ChronoUnit.DAYS);
         cliente.setDebitos(cliente.getDebitos() + (veiculo.getValor()*diasLocacao));
     }
 
-    public void buscarVeiculosAlugados(Cliente clienteLogado) {
-        clienteLogado.getVeiculosAlugados().forEach(System.out::println);
+    public void buscarVeiculosAlugados(Cliente clienteLogado) throws VeiculoException {
+        List<Veiculo> veiculos = clienteLogado.getVeiculosAlugados();
+        if(veiculos.isEmpty()){
+            throw new VeiculoException("Sem veículos para devolver");
+        }
+        veiculos.forEach(System.out::println);
     }
 
     public void devolverVeiculo(Cliente clienteLogado, int veiculoEscolhido) {
@@ -66,5 +66,9 @@ public class ClienteService {
                 clienteLogado.getVeiculosAlugados().remove(i);
                 return;
             }
+    }
+
+    public ClienteRepository getRepository() {
+        return repository;
     }
 }

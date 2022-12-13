@@ -1,6 +1,5 @@
 package repository;
 
-import model.Cliente;
 import model.Vendedor;
 
 import java.util.HashMap;

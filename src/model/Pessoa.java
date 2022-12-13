@@ -18,6 +18,10 @@ public abstract class Pessoa {
         this.endereco = endereco;
     }
 
+    public boolean validarSenha(String senha){
+        return this.senha.equals(senha);
+    }
+
     public Integer getId() {
         return id;
     }
